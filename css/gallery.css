@@ -1,0 +1,38 @@
+.sticky {
+    background: #333;
+    padding: 20px;
+    border: 2px solid #FF00FF;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    margin: 0;
+}
+
+.gallery-caption {
+    padding: 10px;
+    background: #333;
+    text-align: center;
+}
+
+.screen-reader-text {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute !important;
+    width: 1px;
+    word-wrap: normal !important;
+}
+
+.bypostauthor {
+    font-weight: normal;
+}
