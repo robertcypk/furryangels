@@ -165,6 +165,11 @@ body {
     justify-content: center;
 }
 
+.hero-banner-block__content .wp-block-columns {
+    align-items: center;
+    gap: 40px;
+}
+
 .hero-banner-block__content .wp-block-button__link {
     border-radius: 50px;
 }

@@ -3,6 +3,32 @@
     var __ = i18n.__;
     var useBlockProps = blockEditor.useBlockProps;
     var InnerBlocks = blockEditor.InnerBlocks;
+    var HERO_ALLOWED_BLOCKS = [
+        'core/heading',
+        'core/paragraph',
+        'core/image',
+        'core/buttons',
+        'core/button',
+        'core/group',
+        'core/columns',
+        'core/column',
+        'core/list',
+        'core/spacer',
+    ];
+    var HERO_TEMPLATE = [
+        ['core/columns', { verticalAlignment: 'center', className: 'hero-banner-columns' }, [
+            ['core/column', { verticalAlignment: 'center', width: '55%' }, [
+                ['core/heading', { level: 1, content: 'Furry Angels Banner' }],
+                ['core/paragraph', { content: 'Add your hero text, image, and call to action here.' }],
+                ['core/buttons', {}, [
+                    ['core/button', { text: 'Contact Us', className: 'btn' }],
+                ]],
+            ]],
+            ['core/column', { verticalAlignment: 'center', width: '45%' }, [
+                ['core/image', {}],
+            ]],
+        ]],
+    ];
 
     blocks.registerBlockType('furryangels/hero-banner', {
         title: __('Hero Banner', 'furryangels'),
@@ -25,25 +51,8 @@
                         'div',
                         { className: 'container hero-banner-block__content' },
                         el(InnerBlocks, {
-                            allowedBlocks: [
-                                'core/heading',
-                                'core/paragraph',
-                                'core/image',
-                                'core/buttons',
-                                'core/button',
-                                'core/group',
-                                'core/columns',
-                                'core/column',
-                                'core/list',
-                                'core/spacer',
-                            ],
-                            template: [
-                                ['core/heading', { level: 1, content: 'Furry Angels Banner' }],
-                                ['core/paragraph', { content: 'Add your hero text, image, and call to action here.' }],
-                                ['core/buttons', {}, [
-                                    ['core/button', { text: 'Contact Us', className: 'btn' }],
-                                ]],
-                            ],
+                            allowedBlocks: HERO_ALLOWED_BLOCKS,
+                            template: HERO_TEMPLATE,
                             templateLock: false,
                         })
                     )
