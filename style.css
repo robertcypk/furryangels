@@ -179,8 +179,21 @@ body {
     padding: 20px;
 }
 
-.furryangels-services-section .services-grid {
+.furryangels-services-section .services-grid,
+.furryangels-services-section .wp-block-group.services-grid,
+.furryangels-services-section-editor .services-grid,
+.furryangels-services-section-editor .wp-block-group.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
     margin-top: 40px;
+}
+
+.furryangels-services-section .service-card,
+.furryangels-services-section .wp-block-group.service-card,
+.furryangels-services-section-editor .service-card,
+.furryangels-services-section-editor .wp-block-group.service-card {
+    height: 100%;
 }
 
 .btn {
