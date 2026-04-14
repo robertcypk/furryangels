@@ -91,6 +91,9 @@
             return el(
                 'section',
                 Object.assign({}, blockProps, { id: 'services' }),
+                el('div', { className: 'bubble-1' }),
+                el('div', { className: 'bubble-2' }),
+                el('div', { className: 'bubble-3' }),
                 el(
                     'div',
                     { className: 'container' },
@@ -161,6 +164,9 @@
             return el(
                 'section',
                 blockProps,
+                el('div', { className: 'bubble-1' }),
+                el('div', { className: 'bubble-2' }),
+                el('div', { className: 'bubble-3' }),
                 el(
                     'div',
                     { className: 'container' },

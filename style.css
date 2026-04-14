@@ -179,6 +179,95 @@ body {
     padding: 20px;
 }
 
+.furryangels-services-section,
+.furryangels-services-section-editor {
+    position: relative;
+    overflow: hidden;
+}
+
+.furryangels-services-section::before,
+.furryangels-services-section::after,
+.furryangels-services-section-editor::before,
+.furryangels-services-section-editor::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: var(--magenta);
+    opacity: 0.1;
+    animation: bubbleFloat 8s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.furryangels-services-section::before,
+.furryangels-services-section-editor::before {
+    width: 300px;
+    height: 300px;
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.furryangels-services-section::after,
+.furryangels-services-section-editor::after {
+    width: 200px;
+    height: 200px;
+    bottom: -50px;
+    right: -50px;
+    animation-delay: 2s;
+}
+
+.bubble-1,
+.bubble-2,
+.bubble-3 {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--magenta);
+    opacity: 0.08;
+    animation: bubbleFloat 10s ease-in-out infinite;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.bubble-1 {
+    width: 150px;
+    height: 150px;
+    top: 50%;
+    right: 10%;
+    animation-delay: 1s;
+}
+
+.bubble-2 {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    left: 20%;
+    animation-delay: 3s;
+}
+
+.bubble-3 {
+    width: 120px;
+    height: 120px;
+    bottom: 20%;
+    left: 40%;
+    animation-delay: 5s;
+}
+
+@keyframes bubbleFloat {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-30px) scale(1.1);
+    }
+}
+
+.furryangels-services-section .container,
+.furryangels-services-section-editor .container {
+    position: relative;
+    z-index: 1;
+}
+
 .furryangels-services-section .services-grid,
 .furryangels-services-section .wp-block-group.services-grid,
 .furryangels-services-section-editor .services-grid,
