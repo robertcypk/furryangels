@@ -108,8 +108,8 @@
                         ],
                         template: [
                             ['core/heading', { level: 2, className: 'section-title', content: 'Our Services' }],
-                            ['core/group', { className: 'services-grid' }, [
-                                ['core/group', { className: 'service-card' }, [
+                            ['core/group', { className: 'services-grid', style: { spacing: { blockGap: '30px' } }, layout: { type: 'grid', columns: 4 } }, [
+                                ['core/group', { className: 'service-card', style: { layout: { selfStretch: 'fit' } } }, [
                                     ['core/paragraph', { className: 'icon', content: 'Pet Care' }],
                                     ['core/heading', { level: 3, content: 'Veterinary Care' }],
                                     ['core/paragraph', { content: 'Professional health checkups and medical services for your beloved pets.' }],
@@ -124,7 +124,22 @@
                                     ['core/heading', { level: 3, content: 'Nutrition' }],
                                     ['core/paragraph', { content: 'Expert advice on diet and nutrition for optimal pet health.' }],
                                 ]],
-                                ['core/group', { className: 'service-card' }, [
+                                ['core/group', { className: 'service-card', style: { layout: { selfStretch: 'fit' } } }, [
+                                    ['core/paragraph', { className: 'icon', content: 'Pet Care' }],
+                                    ['core/heading', { level: 3, content: 'Veterinary Care' }],
+                                    ['core/paragraph', { content: 'Professional health checkups and medical services for your beloved pets.' }],
+                                ]],
+                                ['core/group', { className: 'service-card', style: { layout: { selfStretch: 'fit' } } }, [
+                                    ['core/paragraph', { className: 'icon', content: 'Grooming' }],
+                                    ['core/heading', { level: 3, content: 'Grooming' }],
+                                    ['core/paragraph', { content: 'Professional grooming services to keep your pets looking their best.' }],
+                                ]],
+                                ['core/group', { className: 'service-card', style: { layout: { selfStretch: 'fit' } } }, [
+                                    ['core/paragraph', { className: 'icon', content: 'Nutrition' }],
+                                    ['core/heading', { level: 3, content: 'Nutrition' }],
+                                    ['core/paragraph', { content: 'Expert advice on diet and nutrition for optimal pet health.' }],
+                                ]],
+                                ['core/group', { className: 'service-card', style: { layout: { selfStretch: 'fit' } } }, [
                                     ['core/paragraph', { className: 'icon', content: 'Training' }],
                                     ['core/heading', { level: 3, content: 'Training' }],
                                     ['core/paragraph', { content: 'Professional dog training for all ages and breeds.' }],

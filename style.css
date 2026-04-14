@@ -183,10 +183,28 @@ body {
 .furryangels-services-section .wp-block-group.services-grid,
 .furryangels-services-section-editor .services-grid,
 .furryangels-services-section-editor .wp-block-group.services-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     margin-top: 40px;
+}
+
+@media (max-width: 1024px) {
+    .furryangels-services-section .services-grid,
+    .furryangels-services-section .wp-block-group.services-grid,
+    .furryangels-services-section-editor .services-grid,
+    .furryangels-services-section-editor .wp-block-group.services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .furryangels-services-section .services-grid,
+    .furryangels-services-section .wp-block-group.services-grid,
+    .furryangels-services-section-editor .services-grid,
+    .furryangels-services-section-editor .wp-block-group.services-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .furryangels-services-section .service-card,
