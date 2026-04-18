@@ -36,17 +36,114 @@
         icon: 'cover-image',
         category: 'design',
 
-        edit: function () {
+        attributes: {
+            backgroundImage: { type: 'object', default: null },
+            backgroundRepeat: { type: 'string', default: 'no-repeat' },
+            backgroundPosition: { type: 'string', default: 'center center' },
+            backgroundSize: { type: 'string', default: 'cover' },
+            backgroundColor: { type: 'string', default: '' },
+            overlayOpacity: { type: 'number', default: 0 },
+        },
+
+        edit: function (props) {
             var blockProps = useBlockProps({
                 className: 'furryangels-hero-banner-editor',
             });
+            var backgroundStyle = {};
+            if (props.attributes.backgroundImage && props.attributes.backgroundImage.url) {
+                backgroundStyle.backgroundImage = 'url(' + props.attributes.backgroundImage.url + ')';
+                backgroundStyle.backgroundRepeat = props.attributes.backgroundRepeat;
+                backgroundStyle.backgroundPosition = props.attributes.backgroundPosition;
+                backgroundStyle.backgroundSize = props.attributes.backgroundSize;
+            }
+            if (props.attributes.backgroundColor) {
+                backgroundStyle.backgroundColor = props.attributes.backgroundColor;
+            }
 
             return el(
                 'div',
                 blockProps,
                 el(
+                    components.InspectorControls,
+                    null,
+                    el(
+                        'div',
+                        { className: 'block-editor-inspector__advanced' },
+                        el('p', { className: 'components-base-control__label' }, __('Background Image', 'furryangels')),
+                        el(components.MediaPlaceholder, {
+                            onSelect: function (media) {
+                                props.setAttributes({ backgroundImage: { url: media.url, id: media.id } });
+                            },
+                            onRemove: function () {
+                                props.setAttributes({ backgroundImage: null });
+                            },
+                            accept: 'image/*',
+                            allowedTypes: ['image'],
+                            addToStack: true,
+                        }),
+                        props.attributes.backgroundImage && el(
+                            'div',
+                            { style: { marginTop: '16px' } },
+                            el('p', { className: 'components-base-control__label' }, __('Background Repeat', 'furryangels')),
+                            el(components.SelectControl, {
+                                value: props.attributes.backgroundRepeat,
+                                options: [
+                                    { label: 'No Repeat', value: 'no-repeat' },
+                                    { label: 'Repeat', value: 'repeat' },
+                                    { label: 'Repeat X', value: 'repeat-x' },
+                                    { label: 'Repeat Y', value: 'repeat-y' },
+                                ],
+                                onChange: function (value) { props.setAttributes({ backgroundRepeat: value }); },
+                            }),
+                            el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Background Position', 'furryangels')),
+                            el(components.SelectControl, {
+                                value: props.attributes.backgroundPosition,
+                                options: [
+                                    { label: 'Center Center', value: 'center center' },
+                                    { label: 'Center Left', value: 'center left' },
+                                    { label: 'Center Right', value: 'center right' },
+                                    { label: 'Top Center', value: 'top center' },
+                                    { label: 'Top Left', value: 'top left' },
+                                    { label: 'Top Right', value: 'top right' },
+                                    { label: 'Bottom Center', value: 'bottom center' },
+                                    { label: 'Bottom Left', value: 'bottom left' },
+                                    { label: 'Bottom Right', value: 'bottom right' },
+                                ],
+                                onChange: function (value) { props.setAttributes({ backgroundPosition: value }); },
+                            }),
+                            el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Background Size', 'furryangels')),
+                            el(components.SelectControl, {
+                                value: props.attributes.backgroundSize,
+                                options: [
+                                    { label: 'Cover', value: 'cover' },
+                                    { label: 'Contain', value: 'contain' },
+                                    { label: 'Auto', value: 'auto' },
+                                    { label: '100% 100%', value: '100% 100%' },
+                                ],
+                                onChange: function (value) { props.setAttributes({ backgroundSize: value }); },
+                            }),
+                            el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Background Color', 'furryangels')),
+                            el(components.ColorPicker, {
+                                value: props.attributes.backgroundColor || '',
+                                onChange: function (value) { props.setAttributes({ backgroundColor: value }); },
+                            }),
+                            el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Overlay Opacity', 'furryangels')),
+                            el(components.RangeControl, {
+                                value: props.attributes.overlayOpacity || 0,
+                                min: 0,
+                                max: 100,
+                                onChange: function (value) { props.setAttributes({ overlayOpacity: value }); },
+                            }),
+                        )
+                    )
+                ),
+                el(
                     'section',
-                    { className: 'hero hero-banner-block' },
+                    { className: 'hero hero-banner-block', style: backgroundStyle },
+                    props.attributes.overlayOpacity > 0 && el('div', {
+                        className: 'hero-overlay',
+                        style: { opacity: props.attributes.overlayOpacity / 100, backgroundColor: '#000000' }
+                    }),
                     el(
                         'div',
                         { className: 'container hero-banner-block__content' },
@@ -60,14 +157,30 @@
             );
         },
 
-        save: function () {
+        save: function (props) {
+            var backgroundStyle = {};
+            if (props.attributes.backgroundImage && props.attributes.backgroundImage.url) {
+                backgroundStyle.backgroundImage = 'url(' + props.attributes.backgroundImage.url + ')';
+                backgroundStyle.backgroundRepeat = props.attributes.backgroundRepeat;
+                backgroundStyle.backgroundPosition = props.attributes.backgroundPosition;
+                backgroundStyle.backgroundSize = props.attributes.backgroundSize;
+            }
+            if (props.attributes.backgroundColor) {
+                backgroundStyle.backgroundColor = props.attributes.backgroundColor;
+            }
+
             var blockProps = blockEditor.useBlockProps.save({
                 className: 'hero hero-banner-block',
+                style: backgroundStyle,
             });
 
             return el(
                 'section',
                 blockProps,
+                props.attributes.overlayOpacity > 0 && el('div', {
+                    className: 'hero-overlay',
+                    style: { opacity: props.attributes.overlayOpacity / 100, backgroundColor: '#000000' }
+                }),
                 el(
                     'div',
                     { className: 'container hero-banner-block__content' },
