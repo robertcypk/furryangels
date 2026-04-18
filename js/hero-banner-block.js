@@ -67,15 +67,21 @@
                     components.InspectorControls,
                     null,
                     el(
-                        'div',
-                        { className: 'block-editor-inspector__advanced' },
+                        components.PanelBody,
+                        { title: __('Background Settings', 'furryangels'), initialOpen: true },
                         el('p', { className: 'components-base-control__label' }, __('Background Image', 'furryangels')),
-                        el(components.MediaPlaceholder, {
+                        props.attributes.backgroundImage ? el(
+                            'div',
+                            { className: 'components-placeholder__preview' },
+                            el('img', { src: props.attributes.backgroundImage.url, style: { maxWidth: '100%', height: 'auto' } }),
+                            el(components.Button, {
+                                isDestructive: true,
+                                onClick: function () { props.setAttributes({ backgroundImage: null }); },
+                                style: { marginTop: '8px' }
+                            }, __('Remove Image', 'furryangels'))
+                        ) : el(components.MediaPlaceholder, {
                             onSelect: function (media) {
                                 props.setAttributes({ backgroundImage: { url: media.url, id: media.id } });
-                            },
-                            onRemove: function () {
-                                props.setAttributes({ backgroundImage: null });
                             },
                             accept: 'image/*',
                             allowedTypes: ['image'],
@@ -121,20 +127,20 @@
                                     { label: '100% 100%', value: '100% 100%' },
                                 ],
                                 onChange: function (value) { props.setAttributes({ backgroundSize: value }); },
-                            }),
-                            el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Background Color', 'furryangels')),
-                            el(components.ColorPicker, {
-                                value: props.attributes.backgroundColor || '',
-                                onChange: function (value) { props.setAttributes({ backgroundColor: value }); },
-                            }),
-                            el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Overlay Opacity', 'furryangels')),
-                            el(components.RangeControl, {
-                                value: props.attributes.overlayOpacity || 0,
-                                min: 0,
-                                max: 100,
-                                onChange: function (value) { props.setAttributes({ overlayOpacity: value }); },
-                            }),
-                        )
+                            })
+                        ),
+                        el('p', { className: 'components-base-control__label', style: { marginTop: '16px' } }, __('Background Color', 'furryangels')),
+                        el(components.ColorPicker, {
+                            value: props.attributes.backgroundColor || '',
+                            onChange: function (value) { props.setAttributes({ backgroundColor: value }); },
+                        }),
+                        el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Overlay Opacity', 'furryangels')),
+                        el(components.RangeControl, {
+                            value: props.attributes.overlayOpacity || 0,
+                            min: 0,
+                            max: 100,
+                            onChange: function (value) { props.setAttributes({ overlayOpacity: value }); },
+                        })
                     )
                 ),
                 el(
