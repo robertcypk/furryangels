@@ -40,7 +40,6 @@ body {
 .site-header {
     background: var(--white);
     padding: 20px 0;
-    border-bottom: 3px solid var(--magenta);
 }
 
 .site-header .container {

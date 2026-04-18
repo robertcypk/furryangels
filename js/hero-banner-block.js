@@ -276,7 +276,7 @@
 
         save: function () {
             var blockProps = blockEditor.useBlockProps.save({
-                className: 'section section-dark furryangels-services-section',
+                className: 'section furryangels-services-section',
                 id: 'services',
             });
 
