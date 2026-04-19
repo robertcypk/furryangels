@@ -103,6 +103,14 @@ function furryangels_register_block_assets() {
         '1.0.0',
         true
     );
+    
+    wp_register_script(
+        'furryangels-services-block',
+        get_template_directory_uri() . '/js/services-block.js',
+        array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-i18n'),
+        '1.0.0',
+        true
+    );
 }
 add_action('init', 'furryangels_register_block_assets');
 
@@ -116,6 +124,11 @@ function furryangels_register_blocks() {
     register_block_type('furryangels/services-section', array(
         'api_version'   => 2,
         'editor_script' => 'furryangels-hero-banner-block',
+    ));
+    
+    register_block_type('furryangels/services-block', array(
+        'api_version'   => 2,
+        'editor_script' => 'furryangels-services-block',
     ));
 }
 add_action('init', 'furryangels_register_blocks');
