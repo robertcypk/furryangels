@@ -67,14 +67,16 @@
                     components.InspectorControls,
                     null,
                     el(
-                        components.PanelBody,
-                        { title: __('Background Settings', 'furryangels'), initialOpen: true },
+                        'div',
+                        { className: 'components-panel__body', style: { border: '1px solid #e0e0e0', padding: '16px' } },
+                        el('p', { style: { fontWeight: 'bold', marginBottom: '12px' } }, __('Background Settings', 'furryangels')),
                         el('p', { className: 'components-base-control__label' }, __('Background Image', 'furryangels')),
                         props.attributes.backgroundImage ? el(
                             'div',
                             { className: 'components-placeholder__preview' },
                             el('img', { src: props.attributes.backgroundImage.url, style: { maxWidth: '100%', height: 'auto' } }),
                             el(components.Button, {
+                                variant: 'secondary',
                                 isDestructive: true,
                                 onClick: function () { props.setAttributes({ backgroundImage: null }); },
                                 style: { marginTop: '8px' }
@@ -130,7 +132,7 @@
                             })
                         ),
                         el('p', { className: 'components-base-control__label', style: { marginTop: '16px' } }, __('Background Color', 'furryangels')),
-                        el(components.ColorPicker, {
+                        el(components.ColorPalette, {
                             value: props.attributes.backgroundColor || '',
                             onChange: function (value) { props.setAttributes({ backgroundColor: value }); },
                         }),
