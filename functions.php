@@ -94,8 +94,8 @@ function furryangels_scripts() {
 }
 add_action('wp_enqueue_scripts', 'furryangels_scripts');
 
-// Register Gutenberg hero banner block assets
-function furryangels_register_block_assets() {
+// Register Gutenberg blocks
+function furryangels_register_blocks() {
     wp_register_script(
         'furryangels-hero-banner-block',
         get_template_directory_uri() . '/js/hero-banner-block.js',
@@ -111,11 +111,7 @@ function furryangels_register_block_assets() {
         '1.0.0',
         true
     );
-}
-add_action('init', 'furryangels_register_block_assets');
 
-// Register custom Gutenberg blocks
-function furryangels_register_blocks() {
     register_block_type('furryangels/hero-banner', array(
         'api_version'   => 2,
         'editor_script' => 'furryangels-hero-banner-block',
