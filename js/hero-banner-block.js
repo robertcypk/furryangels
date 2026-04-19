@@ -3,6 +3,7 @@
     var __ = i18n.__;
     var useBlockProps = blockEditor.useBlockProps;
     var InnerBlocks = blockEditor.InnerBlocks;
+    var InspectorControls = blockEditor.InspectorControls;
     var HERO_ALLOWED_BLOCKS = [
         'core/heading',
         'core/paragraph',
@@ -64,84 +65,98 @@
                 'div',
                 blockProps,
                 el(
-                    components.InspectorControls,
+                    InspectorControls,
                     null,
                     el(
                         'div',
-                        { className: 'components-panel__body', style: { border: '1px solid #e0e0e0', padding: '16px' } },
+                        { className: 'components-panel__body', style: { padding: '16px' } },
                         el('p', { style: { fontWeight: 'bold', marginBottom: '12px' } }, __('Background Settings', 'furryangels')),
                         el('p', { className: 'components-base-control__label' }, __('Background Image', 'furryangels')),
                         props.attributes.backgroundImage ? el(
                             'div',
-                            { className: 'components-placeholder__preview' },
-                            el('img', { src: props.attributes.backgroundImage.url, style: { maxWidth: '100%', height: 'auto' } }),
-                            el(components.Button, {
-                                variant: 'secondary',
-                                isDestructive: true,
+                            null,
+                            el('img', { src: props.attributes.backgroundImage.url, style: { maxWidth: '100%', height: 'auto', border: '1px solid #ddd', padding: '4px' } }),
+                            el('button', {
                                 onClick: function () { props.setAttributes({ backgroundImage: null }); },
-                                style: { marginTop: '8px' }
+                                style: { marginTop: '8px', padding: '6px 12px', cursor: 'pointer' }
                             }, __('Remove Image', 'furryangels'))
-                        ) : el(components.MediaPlaceholder, {
-                            onSelect: function (media) {
-                                props.setAttributes({ backgroundImage: { url: media.url, id: media.id } });
-                            },
-                            accept: 'image/*',
-                            allowedTypes: ['image'],
-                            addToStack: true,
-                        }),
+                        ) : el(
+                            'div',
+                            { style: { border: '2px dashed #ccc', padding: '20px', textAlign: 'center' } },
+                            el('input', {
+                                type: 'file',
+                                accept: 'image/*',
+                                onChange: function (e) {
+                                    var file = e.target.files[0];
+                                    if (file) {
+                                        var reader = new FileReader();
+                                        reader.onload = function (event) {
+                                            props.setAttributes({ backgroundImage: { url: event.target.result, id: null } });
+                                        };
+                                        reader.readAsDataURL(file);
+                                    }
+                                },
+                                style: { marginBottom: '8px' }
+                            }),
+                            el('p', { style: { margin: 0 } }, __('Click to upload background image', 'furryangels'))
+                        ),
                         props.attributes.backgroundImage && el(
                             'div',
                             { style: { marginTop: '16px' } },
                             el('p', { className: 'components-base-control__label' }, __('Background Repeat', 'furryangels')),
-                            el(components.SelectControl, {
+                            el('select', {
                                 value: props.attributes.backgroundRepeat,
-                                options: [
-                                    { label: 'No Repeat', value: 'no-repeat' },
-                                    { label: 'Repeat', value: 'repeat' },
-                                    { label: 'Repeat X', value: 'repeat-x' },
-                                    { label: 'Repeat Y', value: 'repeat-y' },
-                                ],
-                                onChange: function (value) { props.setAttributes({ backgroundRepeat: value }); },
-                            }),
+                                onChange: function (e) { props.setAttributes({ backgroundRepeat: e.target.value }); },
+                                style: { width: '100%', padding: '8px' }
+                            }, [
+                                el('option', { value: 'no-repeat' }, 'No Repeat'),
+                                el('option', { value: 'repeat' }, 'Repeat'),
+                                el('option', { value: 'repeat-x' }, 'Repeat X'),
+                                el('option', { value: 'repeat-y' }, 'Repeat Y'),
+                            ]),
                             el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Background Position', 'furryangels')),
-                            el(components.SelectControl, {
+                            el('select', {
                                 value: props.attributes.backgroundPosition,
-                                options: [
-                                    { label: 'Center Center', value: 'center center' },
-                                    { label: 'Center Left', value: 'center left' },
-                                    { label: 'Center Right', value: 'center right' },
-                                    { label: 'Top Center', value: 'top center' },
-                                    { label: 'Top Left', value: 'top left' },
-                                    { label: 'Top Right', value: 'top right' },
-                                    { label: 'Bottom Center', value: 'bottom center' },
-                                    { label: 'Bottom Left', value: 'bottom left' },
-                                    { label: 'Bottom Right', value: 'bottom right' },
-                                ],
-                                onChange: function (value) { props.setAttributes({ backgroundPosition: value }); },
-                            }),
+                                onChange: function (e) { props.setAttributes({ backgroundPosition: e.target.value }); },
+                                style: { width: '100%', padding: '8px' }
+                            }, [
+                                el('option', { value: 'center center' }, 'Center Center'),
+                                el('option', { value: 'center left' }, 'Center Left'),
+                                el('option', { value: 'center right' }, 'Center Right'),
+                                el('option', { value: 'top center' }, 'Top Center'),
+                                el('option', { value: 'top left' }, 'Top Left'),
+                                el('option', { value: 'top right' }, 'Top Right'),
+                                el('option', { value: 'bottom center' }, 'Bottom Center'),
+                                el('option', { value: 'bottom left' }, 'Bottom Left'),
+                                el('option', { value: 'bottom right' }, 'Bottom Right'),
+                            ]),
                             el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Background Size', 'furryangels')),
-                            el(components.SelectControl, {
+                            el('select', {
                                 value: props.attributes.backgroundSize,
-                                options: [
-                                    { label: 'Cover', value: 'cover' },
-                                    { label: 'Contain', value: 'contain' },
-                                    { label: 'Auto', value: 'auto' },
-                                    { label: '100% 100%', value: '100% 100%' },
-                                ],
-                                onChange: function (value) { props.setAttributes({ backgroundSize: value }); },
-                            })
+                                onChange: function (e) { props.setAttributes({ backgroundSize: e.target.value }); },
+                                style: { width: '100%', padding: '8px' }
+                            }, [
+                                el('option', { value: 'cover' }, 'Cover'),
+                                el('option', { value: 'contain' }, 'Contain'),
+                                el('option', { value: 'auto' }, 'Auto'),
+                                el('option', { value: '100% 100%' }, '100% 100%'),
+                            ])
                         ),
                         el('p', { className: 'components-base-control__label', style: { marginTop: '16px' } }, __('Background Color', 'furryangels')),
-                        el(components.ColorPalette, {
-                            value: props.attributes.backgroundColor || '',
-                            onChange: function (value) { props.setAttributes({ backgroundColor: value }); },
+                        el('input', {
+                            type: 'color',
+                            value: props.attributes.backgroundColor || '#ffffff',
+                            onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
+                            style: { width: '100%', height: '40px' }
                         }),
                         el('p', { className: 'components-base-control__label', style: { marginTop: '12px' } }, __('Overlay Opacity', 'furryangels')),
-                        el(components.RangeControl, {
-                            value: props.attributes.overlayOpacity || 0,
+                        el('input', {
+                            type: 'range',
                             min: 0,
                             max: 100,
-                            onChange: function (value) { props.setAttributes({ overlayOpacity: value }); },
+                            value: props.attributes.overlayOpacity || 0,
+                            onChange: function (e) { props.setAttributes({ overlayOpacity: parseInt(e.target.value, 10) }); },
+                            style: { width: '100%' }
                         })
                     )
                 ),
