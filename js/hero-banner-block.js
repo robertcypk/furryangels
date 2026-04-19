@@ -1,10 +1,8 @@
-(function (blocks, element, blockEditor, components, i18n) {
+(function (blocks, element, blockEditor, i18n) {
     var el = element.createElement;
     var __ = i18n.__;
     var useBlockProps = blockEditor.useBlockProps;
     var useBlockPropsSave = useBlockProps.save;
-    var MediaUpload = components.MediaUpload;
-    var InspectorControls = blockEditor.InspectorControls;
 
     blocks.registerBlockType('furryangels/hero-banner', {
         title: __('Hero Banner', 'furryangels'),
@@ -31,80 +29,69 @@
             if (props.attributes.backgroundColor) bgStyle.backgroundColor = props.attributes.backgroundColor;
 
             return el('div', blockProps,
-                el(
-                    InspectorControls,
-                    null,
-                    el('div', { style: { padding: '16px' } },
-                        el('p', { style: { margin: '0 0 10px', fontWeight: 'bold' } }, 'Background Settings'),
-                        el('p', { style: { margin: '0 0 5px' } }, 'Background Image:'),
-                        el(MediaUpload, {
-                            onSelect: function (media) {
-                                props.setAttributes({ backgroundImage: media.url });
-                            },
-                            type: 'image',
-                            value: props.attributes.backgroundImage,
-                            render: function (open) {
-                                return props.attributes.backgroundImage ? el('div', null,
-                                    el('img', { src: props.attributes.backgroundImage, style: { width: '100%', height: '150px', objectFit: 'cover', marginBottom: '8px' } }),
-                                    el('button', { onClick: open, style: { marginRight: '8px' } }, 'Change'),
-                                    el('button', { onClick: function () { props.setAttributes({ backgroundImage: '' }); } }, 'Remove')
-                                ) : el('button', { onClick: open, style: { padding: '20px', width: '100%', cursor: 'pointer' } }, 'Select Image');
-                            }
-                        }),
-                        el('label', { style: { display: 'block', marginTop: '15px', marginBottom: '5px' } }, 'Repeat:'),
-                        el('select', {
-                            value: props.attributes.backgroundRepeat,
-                            onChange: function (e) { props.setAttributes({ backgroundRepeat: e.target.value }); },
-                            style: { width: '100%', padding: '5px' }
-                        }, [
-                            el('option', { value: 'no-repeat' }, 'No Repeat'),
-                            el('option', { value: 'repeat' }, 'Repeat'),
-                            el('option', { value: 'repeat-x' }, 'Repeat X'),
-                            el('option', { value: 'repeat-y' }, 'Repeat Y')
-                        ]),
-                        el('label', { style: { display: 'block', marginTop: '15px', marginBottom: '5px' } }, 'Position:'),
-                        el('select', {
-                            value: props.attributes.backgroundPosition,
-                            onChange: function (e) { props.setAttributes({ backgroundPosition: e.target.value }); },
-                            style: { width: '100%', padding: '5px' }
-                        }, [
-                            el('option', { value: 'center center' }, 'Center Center'),
-                            el('option', { value: 'center left' }, 'Center Left'),
-                            el('option', { value: 'center right' }, 'Center Right'),
-                            el('option', { value: 'top center' }, 'Top Center'),
-                            el('option', { value: 'top left' }, 'Top Left'),
-                            el('option', { value: 'top right' }, 'Top Right'),
-                            el('option', { value: 'bottom center' }, 'Bottom Center'),
-                            el('option', { value: 'bottom left' }, 'Bottom Left'),
-                            el('option', { value: 'bottom right' }, 'Bottom Right')
-                        ]),
-                        el('label', { style: { display: 'block', marginTop: '15px', marginBottom: '5px' } }, 'Size:'),
-                        el('select', {
-                            value: props.attributes.backgroundSize,
-                            onChange: function (e) { props.setAttributes({ backgroundSize: e.target.value }); },
-                            style: { width: '100%', padding: '5px' }
-                        }, [
-                            el('option', { value: 'cover' }, 'Cover'),
-                            el('option', { value: 'contain' }, 'Contain'),
-                            el('option', { value: 'auto' }, 'Auto')
-                        ]),
-                        el('label', { style: { display: 'block', marginTop: '15px', marginBottom: '5px' } }, 'Color:'),
-                        el('input', {
-                            type: 'color',
-                            value: props.attributes.backgroundColor || '#ffffff',
-                            onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
-                            style: { width: '100%', height: '30px' }
-                        }),
-                        el('label', { style: { display: 'block', marginTop: '15px', marginBottom: '5px' } }, 'Overlay Opacity:'),
-                        el('input', {
-                            type: 'range',
-                            min: 0,
-                            max: 100,
-                            value: props.attributes.overlayOpacity || 0,
-                            onChange: function (e) { props.setAttributes({ overlayOpacity: parseInt(e.target.value, 10) }); },
-                            style: { width: '100%' }
-                        })
-                    )
+                el('div', { className: 'hero-banner-settings', style: { background: '#fff', padding: '15px', marginBottom: '15px', border: '1px solid #ccc' } },
+                    el('p', { style: { margin: '0 0 10px', fontWeight: 'bold' } }, 'Background Settings'),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Image URL:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.backgroundImage,
+                        onChange: function (e) { props.setAttributes({ backgroundImage: e.target.value }); },
+                        placeholder: 'https://example.com/image.jpg',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Repeat:'),
+                    el('select', {
+                        value: props.attributes.backgroundRepeat,
+                        onChange: function (e) { props.setAttributes({ backgroundRepeat: e.target.value }); },
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }, [
+                        el('option', { value: 'no-repeat' }, 'No Repeat'),
+                        el('option', { value: 'repeat' }, 'Repeat'),
+                        el('option', { value: 'repeat-x' }, 'Repeat X'),
+                        el('option', { value: 'repeat-y' }, 'Repeat Y')
+                    ]),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Position:'),
+                    el('select', {
+                        value: props.attributes.backgroundPosition,
+                        onChange: function (e) { props.setAttributes({ backgroundPosition: e.target.value }); },
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }, [
+                        el('option', { value: 'center center' }, 'Center Center'),
+                        el('option', { value: 'center left' }, 'Center Left'),
+                        el('option', { value: 'center right' }, 'Center Right'),
+                        el('option', { value: 'top center' }, 'Top Center'),
+                        el('option', { value: 'top left' }, 'Top Left'),
+                        el('option', { value: 'top right' }, 'Top Right'),
+                        el('option', { value: 'bottom center' }, 'Bottom Center'),
+                        el('option', { value: 'bottom left' }, 'Bottom Left'),
+                        el('option', { value: 'bottom right' }, 'Bottom Right')
+                    ]),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Size:'),
+                    el('select', {
+                        value: props.attributes.backgroundSize,
+                        onChange: function (e) { props.setAttributes({ backgroundSize: e.target.value }); },
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }, [
+                        el('option', { value: 'cover' }, 'Cover'),
+                        el('option', { value: 'contain' }, 'Contain'),
+                        el('option', { value: 'auto' }, 'Auto')
+                    ]),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Color:'),
+                    el('input', {
+                        type: 'color',
+                        value: props.attributes.backgroundColor || '#ffffff',
+                        onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
+                        style: { width: '100%', height: '40px', marginBottom: '15px' }
+                    }),
+                    el('label', { style: { display: 'block' } }, 'Overlay Opacity:'),
+                    el('input', {
+                        type: 'range',
+                        min: 0,
+                        max: 100,
+                        value: props.attributes.overlayOpacity || 0,
+                        onChange: function (e) { props.setAttributes({ overlayOpacity: parseInt(e.target.value, 10) }); },
+                        style: { width: '100%' }
+                    })
                 ),
                 el('div', { className: 'hero-banner-preview', style: Object.assign({ padding: '40px', minHeight: '200px' }, bgStyle) })
             );
@@ -123,10 +110,8 @@
 
             return el('section', Object.assign({}, blockProps, { style: sectionStyle }),
                 props.attributes.overlayOpacity > 0 ? el('div', { style: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#000', opacity: props.attributes.overlayOpacity / 100 } }) : null,
-                el('div', { className: 'container', style: { position: 'relative', zIndex: 1 } },
-                    props.attributes.backgroundImage ? el('img', { src: props.attributes.backgroundImage, style: { display: 'none' } }) : null
-                )
+                el('div', { className: 'container', style: { position: 'relative', zIndex: 1 } })
             );
         },
     });
-})(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.components, window.wp.i18n);
+})(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.i18n);
