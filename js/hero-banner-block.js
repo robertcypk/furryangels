@@ -98,6 +98,7 @@
         },
 
         save: function (props) {
+            console.log(props.attributes);
             var bgStyle = {};
             if (props.attributes.backgroundImage) bgStyle.backgroundImage = 'url(' + props.attributes.backgroundImage + ')';
             if (props.attributes.backgroundRepeat) bgStyle.backgroundRepeat = props.attributes.backgroundRepeat;
