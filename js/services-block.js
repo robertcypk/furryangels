@@ -45,6 +45,25 @@
                                         ['core/image', { placeholder: 'Icon or Image' }],
                                         ['core/heading', { level: 3, placeholder: 'Service Title' }],
                                         ['core/paragraph', { placeholder: 'Service description...' }]
+                                    ]],['core/group', { className: 'service-card' }, [
+                                        ['core/image', { placeholder: 'Icon or Image' }],
+                                        ['core/heading', { level: 3, placeholder: 'Service Title' }],
+                                        ['core/paragraph', { placeholder: 'Service description...' }]
+                                    ]],
+                                    ['core/group', { className: 'service-card' }, [
+                                        ['core/image', { placeholder: 'Icon or Image' }],
+                                        ['core/heading', { level: 3, placeholder: 'Service Title' }],
+                                        ['core/paragraph', { placeholder: 'Service description...' }]
+                                    ]],
+                                    ['core/group', { className: 'service-card' }, [
+                                        ['core/image', { placeholder: 'Icon or Image' }],
+                                        ['core/heading', { level: 3, placeholder: 'Service Title' }],
+                                        ['core/paragraph', { placeholder: 'Service description...' }]
+                                    ]],
+                                    ['core/group', { className: 'service-card' }, [
+                                        ['core/image', { placeholder: 'Icon or Image' }],
+                                        ['core/heading', { level: 3, placeholder: 'Service Title' }],
+                                        ['core/paragraph', { placeholder: 'Service description...' }]
                                     ]]
                                 ]]
                             ],

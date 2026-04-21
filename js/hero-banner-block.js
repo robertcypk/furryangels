@@ -3,6 +3,8 @@
     var __ = i18n.__;
     var useBlockProps = blockEditor.useBlockProps;
     var useBlockPropsSave = useBlockProps.save;
+    var InnerBlocks = blockEditor.InnerBlocks;
+    var InnerBlocksContent = InnerBlocks.Content;
 
     blocks.registerBlockType('furryangels/hero-banner', {
         title: __('Hero Banner', 'furryangels'),
@@ -29,7 +31,7 @@
             if (props.attributes.backgroundColor) bgStyle.backgroundColor = props.attributes.backgroundColor;
 
             return el('div', blockProps,
-                el('div', { className: 'hero-banner-settings', style: { background: '#fff', padding: '15px', marginBottom: '15px', border: '1px solid #ccc' } },
+                el('section', { className: 'hero-banner-settings', style: { background: '#fff', padding: '15px', marginBottom: '15px', border: '1px solid #ccc' } },
                     el('p', { style: { margin: '0 0 10px', fontWeight: 'bold' } }, 'Background Settings'),
                     el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Image URL:'),
                     el('input', {
