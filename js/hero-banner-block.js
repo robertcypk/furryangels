@@ -144,7 +144,7 @@
                             placeholder: '#ff0000, #00ff00, #0000ff'
                         })
                     ] : null,
-                    createElement('hr', { style: { margin: '15px 0' } ),
+                    createElement('hr', { style: { margin: '15px 0' } }),
                     createElement(TextControl, {
                         label: 'Font Size',
                         value: attrs.headingSize,
