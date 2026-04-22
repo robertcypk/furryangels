@@ -17,8 +17,14 @@
     var SelectControl = components.SelectControl;
     var __ = i18n.__;
     
-    function getStyledHeading(heading, style, colors, textColor) {
+    function getStyledHeading(heading, style, colors, textColor, fontSize, lineHeight) {
         if (!heading) return null;
+        
+        var headingStyle = { 
+            marginBottom: '10px', 
+            fontSize: fontSize || '2.5rem',
+            lineHeight: lineHeight || '1.2'
+        };
         
         var colorArray = (style !== 'normal' && colors) ? colors.split(',').map(function(c) { return c.trim(); }) : [];
         
@@ -28,7 +34,7 @@
                 var color = colorArray[i] || textColor;
                 return createElement('span', { key: i, style: { background: '-webkit-linear-gradient(45deg, ' + color + ', ' + color + ')', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' } }, word);
             });
-            return createElement('h2', { style: { marginBottom: '10px' } }, styledElements);
+            return createElement('h2', { style: headingStyle }, styledElements);
         }
         
         if (style === 'multicolor') {
@@ -37,7 +43,7 @@
                 var color = colorArray[i % colorArray.length] || textColor;
                 return createElement('span', { key: i, style: { color: color } }, letter);
             });
-            return createElement('h2', { style: { marginBottom: '10px' } }, styledElements);
+            return createElement('h2', { style: headingStyle }, styledElements);
         }
         
         if (style === 'split') {
@@ -49,13 +55,13 @@
             var firstColor = colorArray[0] || textColor;
             var secondColor = colorArray[1] || textColor;
             
-            return createElement('h2', { style: { marginBottom: '10px' } },
+            return createElement('h2', { style: headingStyle },
                 createElement('span', { style: { color: firstColor } }, firstHalf + ' '),
                 createElement('span', { style: { color: secondColor } }, secondHalf)
             );
         }
         
-        return createElement('h2', { style: { marginBottom: '10px', color: textColor } }, heading);
+        return createElement('h2', { style: headingStyle }, heading);
     }
     
     registerBlockType('furryangels/hero-banner', {
@@ -83,7 +89,9 @@
             innerWidth: { type: 'string', default: '100%' },
             gap: { type: 'number', default: 20 },
             headingStyle: { type: 'string', default: 'normal' },
-            headingColors: { type: 'string', default: '' }
+            headingColors: { type: 'string', default: '' },
+            headingSize: { type: 'string', default: '2.5rem' },
+            headingLineHeight: { type: 'string', default: '1.2' }
         },
         
         edit: function(props) {
@@ -108,6 +116,12 @@
                 ),
                 
                 createElement(PanelBody, { title: 'Heading Style', initialOpen: false },
+                    createElement(TextControl, {
+                        label: 'Heading',
+                        value: attrs.heading,
+                        onChange: function(value) { props.setAttributes({ heading: value }); },
+                        placeholder: 'Enter heading'
+                    }),
                     createElement(SelectControl, {
                         label: 'Heading Style',
                         value: attrs.headingStyle,
@@ -129,7 +143,20 @@
                             onChange: function(value) { props.setAttributes({ headingColors: value }); },
                             placeholder: '#ff0000, #00ff00, #0000ff'
                         })
-                    ] : null
+                    ] : null,
+                    createElement('hr', { style: { margin: '15px 0' } ),
+                    createElement(TextControl, {
+                        label: 'Font Size',
+                        value: attrs.headingSize,
+                        onChange: function(value) { props.setAttributes({ headingSize: value }); },
+                        placeholder: '2.5rem'
+                    }),
+                    createElement(TextControl, {
+                        label: 'Line Height',
+                        value: attrs.headingLineHeight,
+                        onChange: function(value) { props.setAttributes({ headingLineHeight: value }); },
+                        placeholder: '1.2'
+                    })
                 ),
                 
                 createElement(PanelBody, { title: 'Button', initialOpen: false },
@@ -277,7 +304,7 @@
             }
             
             var contentPart = createElement('div', { style: { flex: '1', textAlign: attrs.alignment } },
-                getStyledHeading(attrs.heading, attrs.headingStyle, attrs.headingColors, attrs.textColor),
+                getStyledHeading(attrs.heading, attrs.headingStyle, attrs.headingColors, attrs.textColor, attrs.headingSize, attrs.headingLineHeight),
                 createElement('p', { marginBottom: '15px', color: attrs.textColor }, attrs.content || 'Content'),
                 attrs.buttonText ? createElement('a', {
                     href: attrs.buttonUrl,
