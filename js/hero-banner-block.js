@@ -19,6 +19,10 @@
             backgroundSize: { type: 'string', default: 'cover' },
             backgroundColor: { type: 'string', default: '' },
             overlayOpacity: { type: 'number', default: 0 },
+            heading: { type: 'string', default: 'Your Heading Here' },
+            content: { type: 'string', default: 'Add your content here.' },
+            buttonText: { type: 'string', default: 'Learn More' },
+            buttonUrl: { type: 'string', default: '#' },
         },
 
         edit: function (props) {
@@ -93,9 +97,48 @@
                         value: props.attributes.overlayOpacity || 0,
                         onChange: function (e) { props.setAttributes({ overlayOpacity: parseInt(e.target.value, 10) }); },
                         style: { width: '100%' }
+                    }),
+                    el('hr', { style: { margin: '20px 0' } }),
+                    el('p', { style: { margin: '0 0 10px', fontWeight: 'bold' } }, 'Content Settings'),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Heading:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.heading,
+                        onChange: function (e) { props.setAttributes({ heading: e.target.value }); },
+                        placeholder: 'Your Heading Here',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Content:'),
+                    el('textarea', {
+                        value: props.attributes.content,
+                        onChange: function (e) { props.setAttributes({ content: e.target.value }); },
+                        placeholder: 'Add your content here.',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px', minHeight: '80px' }
+                    }),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Button Text:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.buttonText,
+                        onChange: function (e) { props.setAttributes({ buttonText: e.target.value }); },
+                        placeholder: 'Learn More',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Button URL:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.buttonUrl,
+                        onChange: function (e) { props.setAttributes({ buttonUrl: e.target.value }); },
+                        placeholder: '#',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
                     })
                 ),
-                el('div', { className: 'hero-banner-preview', style: Object.assign({ padding: '40px', minHeight: '200px' }, bgStyle) })
+                el('div', { className: 'hero-banner-preview', style: Object.assign({ padding: '40px', minHeight: '200px' }, bgStyle) },
+                el('div', { className: 'hero-banner-content-preview' },
+                    props.attributes.heading ? el('h1', { className: 'hero-banner-heading', style: { color: '#fff', textAlign: 'center' } }, props.attributes.heading) : null,
+                    props.attributes.content ? el('p', { className: 'hero-banner-text', style: { color: '#fff', textAlign: 'center' } }, props.attributes.content) : null,
+                    props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button', style: { display: 'inline-block', padding: '10px 20px', background: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '4px' } }, props.attributes.buttonText) : null
+                )
+            )
             );
         },
 
@@ -112,7 +155,13 @@
 
             return el('section', Object.assign({}, blockProps, { style: sectionStyle }),
                 props.attributes.overlayOpacity > 0 ? el('div', { style: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#000', opacity: props.attributes.overlayOpacity / 100 } }) : null,
-                el('div', { className: 'container', style: { position: 'relative', zIndex: 1 } })
+                el('div', { className: 'container', style: { position: 'relative', zIndex: 1 } },
+                    el('div', { className: 'hero-banner-content' },
+                        props.attributes.heading ? el('h1', { className: 'hero-banner-heading' }, props.attributes.heading) : null,
+                        props.attributes.content ? el('p', { className: 'hero-banner-text' }, props.attributes.content) : null,
+                        props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button' }, props.attributes.buttonText) : null
+                    )
+                )
             );
         },
     });
