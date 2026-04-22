@@ -3,163 +3,135 @@
     var __ = i18n.__;
     var useBlockProps = blockEditor.useBlockProps;
     var useBlockPropsSave = useBlockProps.save;
-    var InnerBlocks = blockEditor.InnerBlocks;
-    var InnerBlocksContent = InnerBlocks.Content;
+    var InspectorControls = blockEditor.InspectorControls;
+    var RichText = blockEditor.RichText;
+    var PanelBody = blockEditor.PanelBody;
+    var TextControl = blockEditor.TextControl;
+    var ColorPalette = blockEditor.ColorPalette;
 
     blocks.registerBlockType('furryangels/hero-banner', {
         title: __('Hero Banner', 'furryangels'),
-        description: __('Hero banner with background image and content.', 'furryangels'),
+        description: __('Hero banner with image and content side by side.', 'furryangels'),
         icon: 'cover-image',
         category: 'design',
 
         attributes: {
-            backgroundImage: { type: 'string', default: '' },
-            backgroundRepeat: { type: 'string', default: 'no-repeat' },
-            backgroundPosition: { type: 'string', default: 'center center' },
-            backgroundSize: { type: 'string', default: 'cover' },
-            backgroundColor: { type: 'string', default: '' },
-            overlayOpacity: { type: 'number', default: 0 },
-            heading: { type: 'string', default: 'Your Heading Here' },
-            content: { type: 'string', default: 'Add your content here.' },
-            buttonText: { type: 'string', default: 'Learn More' },
+            imageUrl: { type: 'string', default: '' },
+            imageAlt: { type: 'string', default: '' },
+            heading: { type: 'string', default: '' },
+            content: { type: 'string', default: '' },
+            buttonText: { type: 'string', default: '' },
             buttonUrl: { type: 'string', default: '#' },
+            contentAlignment: { type: 'string', default: 'center' },
+            textColor: { type: 'string', default: '#000000' },
+            backgroundColor: { type: 'string', default: '#ffffff' },
         },
 
         edit: function (props) {
             var blockProps = useBlockProps({ className: 'furryangels-hero-banner-editor' });
-            var bgStyle = {};
-            if (props.attributes.backgroundImage) bgStyle.backgroundImage = 'url(' + props.attributes.backgroundImage + ')';
-            if (props.attributes.backgroundRepeat) bgStyle.backgroundRepeat = props.attributes.backgroundRepeat;
-            if (props.attributes.backgroundPosition) bgStyle.backgroundPosition = props.attributes.backgroundPosition;
-            if (props.attributes.backgroundSize) bgStyle.backgroundSize = props.attributes.backgroundSize;
-            if (props.attributes.backgroundColor) bgStyle.backgroundColor = props.attributes.backgroundColor;
 
             return el('div', blockProps,
-                el('section', { className: 'hero-banner-settings', style: { background: '#fff', padding: '15px', marginBottom: '15px', border: '1px solid #ccc' } },
-                    el('p', { style: { margin: '0 0 10px', fontWeight: 'bold' } }, 'Background Settings'),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Image URL:'),
-                    el('input', {
-                        type: 'text',
-                        value: props.attributes.backgroundImage,
-                        onChange: function (e) { props.setAttributes({ backgroundImage: e.target.value }); },
-                        placeholder: 'https://example.com/image.jpg',
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    }),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Repeat:'),
-                    el('select', {
-                        value: props.attributes.backgroundRepeat,
-                        onChange: function (e) { props.setAttributes({ backgroundRepeat: e.target.value }); },
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    }, [
-                        el('option', { value: 'no-repeat' }, 'No Repeat'),
-                        el('option', { value: 'repeat' }, 'Repeat'),
-                        el('option', { value: 'repeat-x' }, 'Repeat X'),
-                        el('option', { value: 'repeat-y' }, 'Repeat Y')
-                    ]),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Position:'),
-                    el('select', {
-                        value: props.attributes.backgroundPosition,
-                        onChange: function (e) { props.setAttributes({ backgroundPosition: e.target.value }); },
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    }, [
-                        el('option', { value: 'center center' }, 'Center Center'),
-                        el('option', { value: 'center left' }, 'Center Left'),
-                        el('option', { value: 'center right' }, 'Center Right'),
-                        el('option', { value: 'top center' }, 'Top Center'),
-                        el('option', { value: 'top left' }, 'Top Left'),
-                        el('option', { value: 'top right' }, 'Top Right'),
-                        el('option', { value: 'bottom center' }, 'Bottom Center'),
-                        el('option', { value: 'bottom left' }, 'Bottom Left'),
-                        el('option', { value: 'bottom right' }, 'Bottom Right')
-                    ]),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Size:'),
-                    el('select', {
-                        value: props.attributes.backgroundSize,
-                        onChange: function (e) { props.setAttributes({ backgroundSize: e.target.value }); },
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    }, [
-                        el('option', { value: 'cover' }, 'Cover'),
-                        el('option', { value: 'contain' }, 'Contain'),
-                        el('option', { value: 'auto' }, 'Auto')
-                    ]),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Background Color:'),
-                    el('input', {
-                        type: 'color',
-                        value: props.attributes.backgroundColor || '#ffffff',
-                        onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
-                        style: { width: '100%', height: '40px', marginBottom: '15px' }
-                    }),
-                    el('label', { style: { display: 'block' } }, 'Overlay Opacity:'),
-                    el('input', {
-                        type: 'range',
-                        min: 0,
-                        max: 100,
-                        value: props.attributes.overlayOpacity || 0,
-                        onChange: function (e) { props.setAttributes({ overlayOpacity: parseInt(e.target.value, 10) }); },
-                        style: { width: '100%' }
-                    }),
-                    el('hr', { style: { margin: '20px 0' } }),
-                    el('p', { style: { margin: '0 0 10px', fontWeight: 'bold' } }, 'Content Settings'),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Heading:'),
-                    el('input', {
-                        type: 'text',
-                        value: props.attributes.heading,
-                        onChange: function (e) { props.setAttributes({ heading: e.target.value }); },
-                        placeholder: 'Your Heading Here',
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    }),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Content:'),
-                    el('textarea', {
-                        value: props.attributes.content,
-                        onChange: function (e) { props.setAttributes({ content: e.target.value }); },
-                        placeholder: 'Add your content here.',
-                        style: { width: '100%', padding: '8px', marginBottom: '15px', minHeight: '80px' }
-                    }),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Button Text:'),
-                    el('input', {
-                        type: 'text',
-                        value: props.attributes.buttonText,
-                        onChange: function (e) { props.setAttributes({ buttonText: e.target.value }); },
-                        placeholder: 'Learn More',
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    }),
-                    el('label', { style: { display: 'block', marginBottom: '10px' } }, 'Button URL:'),
-                    el('input', {
-                        type: 'text',
-                        value: props.attributes.buttonUrl,
-                        onChange: function (e) { props.setAttributes({ buttonUrl: e.target.value }); },
-                        placeholder: '#',
-                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                    })
+                el(InspectorControls, { key: 'inspector' },
+                    el(PanelBody, { title: 'Content Settings', initialOpen: true },
+                        el(RichText, {
+                            tagName: 'h2',
+                            value: props.attributes.heading,
+                            onChange: function (value) { props.setAttributes({ heading: value }); },
+                            placeholder: 'Enter heading...',
+                            className: 'hero-banner-heading-input'
+                        }),
+                        el(RichText, {
+                            tagName: 'p',
+                            value: props.attributes.content,
+                            onChange: function (value) { props.setAttributes({ content: value }); },
+                            placeholder: 'Enter content...',
+                            className: 'hero-banner-content-input'
+                        }),
+                        el(TextControl, {
+                            label: 'Button Text',
+                            value: props.attributes.buttonText,
+                            onChange: function (value) { props.setAttributes({ buttonText: value }); },
+                            placeholder: 'Learn More'
+                        }),
+                        el(TextControl, {
+                            label: 'Button URL',
+                            value: props.attributes.buttonUrl,
+                            onChange: function (value) { props.setAttributes({ buttonUrl: value }); },
+                            placeholder: '#'
+                        })
+                    ),
+                    el(PanelBody, { title: 'Image Settings', initialOpen: true },
+                        el(TextControl, {
+                            label: 'Image URL',
+                            value: props.attributes.imageUrl,
+                            onChange: function (value) { props.setAttributes({ imageUrl: value }); },
+                            placeholder: 'https://example.com/image.jpg'
+                        }),
+                        el(TextControl, {
+                            label: 'Image Alt Text',
+                            value: props.attributes.imageAlt,
+                            onChange: function (value) { props.setAttributes({ imageAlt: value }); },
+                            placeholder: 'Image description'
+                        })
+                    ),
+                    el(PanelBody, { title: 'Style Settings', initialOpen: false },
+                        el('p', { style: { marginBottom: '10px' } }, 'Content Alignment:'),
+                        el('select', {
+                            value: props.attributes.contentAlignment,
+                            onChange: function (e) { props.setAttributes({ contentAlignment: e.target.value }); },
+                            style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                        }, [
+                            el('option', { value: 'left' }, 'Left'),
+                            el('option', { value: 'center' }, 'Center'),
+                            el('option', { value: 'right' }, 'Right')
+                        ]),
+                        el('p', { style: { marginBottom: '10px' } }, 'Text Color:'),
+                        el('input', {
+                            type: 'color',
+                            value: props.attributes.textColor || '#000000',
+                            onChange: function (e) { props.setAttributes({ textColor: e.target.value }); },
+                            style: { width: '100%', height: '40px', marginBottom: '15px' }
+                        }),
+                        el('p', { style: { marginBottom: '10px' } }, 'Background Color:'),
+                        el('input', {
+                            type: 'color',
+                            value: props.attributes.backgroundColor || '#ffffff',
+                            onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
+                            style: { width: '100%', height: '40px', marginBottom: '15px' }
+                        })
+                    )
                 ),
-                el('div', { className: 'hero-banner-preview', style: Object.assign({ padding: '40px', minHeight: '200px' }, bgStyle) },
-                el('div', { className: 'hero-banner-content-preview' },
-                    props.attributes.heading ? el('h1', { className: 'hero-banner-heading', style: { color: '#fff', textAlign: 'center' } }, props.attributes.heading) : null,
-                    props.attributes.content ? el('p', { className: 'hero-banner-text', style: { color: '#fff', textAlign: 'center' } }, props.attributes.content) : null,
-                    props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button', style: { display: 'inline-block', padding: '10px 20px', background: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '4px' } }, props.attributes.buttonText) : null
+                el('section', { className: 'hero-banner-preview', style: { backgroundColor: props.attributes.backgroundColor, padding: '40px' } },
+                    el('div', { className: 'container' },
+                        el('div', { className: 'hero-banner-row', style: { display: 'flex', alignItems: 'center', gap: '30px', flexWrap: 'wrap' } },
+                            props.attributes.imageUrl ? el('div', { className: 'hero-banner-image', style: { flex: '1', minWidth: '300px' } },
+                                el('img', { src: props.attributes.imageUrl, alt: props.attributes.imageAlt, style: { width: '100%', height: 'auto', display: 'block' } })
+                            ) : null,
+                            el('div', { className: 'hero-banner-content', style: { flex: '1', minWidth: '300px', textAlign: props.attributes.contentAlignment, color: props.attributes.textColor } },
+                                props.attributes.heading ? el('h1', { className: 'hero-banner-heading', style: { fontSize: '2.5rem', marginBottom: '15px' } }, props.attributes.heading) : null,
+                                props.attributes.content ? el('p', { className: 'hero-banner-text', style: { fontSize: '1.1rem', marginBottom: '20px' } }, props.attributes.content) : null,
+                                props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button', style: { display: 'inline-block', padding: '12px 30px', backgroundColor: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '5px' } }, props.attributes.buttonText) : null
+                            )
+                        )
+                    )
                 )
-            )
             );
         },
 
         save: function (props) {
-            var bgStyle = {};
-            if (props.attributes.backgroundImage) bgStyle.backgroundImage = 'url(' + props.attributes.backgroundImage + ')';
-            if (props.attributes.backgroundRepeat) bgStyle.backgroundRepeat = props.attributes.backgroundRepeat;
-            if (props.attributes.backgroundPosition) bgStyle.backgroundPosition = props.attributes.backgroundPosition;
-            if (props.attributes.backgroundSize) bgStyle.backgroundSize = props.attributes.backgroundSize;
-            if (props.attributes.backgroundColor) bgStyle.backgroundColor = props.attributes.backgroundColor;
-
             var blockProps = useBlockPropsSave({ className: 'hero hero-banner-block' });
-            var sectionStyle = Object.assign({}, blockProps.style, bgStyle);
 
-            return el('section', Object.assign({}, blockProps, { style: sectionStyle }),
-                props.attributes.overlayOpacity > 0 ? el('div', { style: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#000', opacity: props.attributes.overlayOpacity / 100 } }) : null,
-                el('div', { className: 'container', style: { position: 'relative', zIndex: 1 } },
-                    el('div', { className: 'hero-banner-content' },
-                        props.attributes.heading ? el('h1', { className: 'hero-banner-heading' }, props.attributes.heading) : null,
-                        props.attributes.content ? el('p', { className: 'hero-banner-text' }, props.attributes.content) : null,
-                        props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button' }, props.attributes.buttonText) : null
+            return el('section', Object.assign({}, blockProps, { style: { backgroundColor: props.attributes.backgroundColor } }),
+                el('div', { className: 'container' },
+                    el('div', { className: 'hero-banner-row', style: { display: 'flex', alignItems: 'center', gap: '30px', flexWrap: 'wrap' } },
+                        props.attributes.imageUrl ? el('div', { className: 'hero-banner-image', style: { flex: '1', minWidth: '300px' } },
+                            el('img', { src: props.attributes.imageUrl, alt: props.attributes.imageAlt, style: { width: '100%', height: 'auto', display: 'block' } })
+                        ) : null,
+                        el('div', { className: 'hero-banner-content', style: { flex: '1', minWidth: '300px', textAlign: props.attributes.contentAlignment, color: props.attributes.textColor } },
+                            props.attributes.heading ? el('h1', { className: 'hero-banner-heading', style: { fontSize: '2.5rem', marginBottom: '15px' } }, props.attributes.heading) : null,
+                            props.attributes.content ? el('p', { className: 'hero-banner-text', style: { fontSize: '1.1rem', marginBottom: '20px' } }, props.attributes.content) : null,
+                            props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button', style: { display: 'inline-block', padding: '12px 30px', backgroundColor: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '5px' } }, props.attributes.buttonText) : null
+                        )
                     )
                 )
             );
