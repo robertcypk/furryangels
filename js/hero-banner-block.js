@@ -30,7 +30,7 @@
         edit: function (props) {
             var blockProps = useBlockProps({ className: 'furryangels-hero-banner-editor' });
 
-            return el('div', blockProps,
+            return el('section', blockProps,
                 el(InspectorControls, { key: 'inspector' },
                     el(PanelBody, { title: 'Content Settings', initialOpen: true },
                         el(RichText, {
