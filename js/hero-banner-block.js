@@ -17,6 +17,47 @@
     var SelectControl = components.SelectControl;
     var __ = i18n.__;
     
+    function getStyledHeading(heading, style, colors, textColor) {
+        if (!heading) return null;
+        
+        var colorArray = (style !== 'normal' && colors) ? colors.split(',').map(function(c) { return c.trim(); }) : [];
+        
+        if (style === 'gradient') {
+            var words = heading.split(' ');
+            var styledElements = words.map(function(word, i) {
+                var color = colorArray[i] || textColor;
+                return createElement('span', { key: i, style: { background: '-webkit-linear-gradient(45deg, ' + color + ', ' + color + ')', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' } }, word);
+            });
+            return createElement('h2', { style: { marginBottom: '10px' } }, styledElements);
+        }
+        
+        if (style === 'multicolor') {
+            var letters = heading.split('');
+            var styledElements = letters.map(function(letter, i) {
+                var color = colorArray[i % colorArray.length] || textColor;
+                return createElement('span', { key: i, style: { color: color } }, letter);
+            });
+            return createElement('h2', { style: { marginBottom: '10px' } }, styledElements);
+        }
+        
+        if (style === 'split') {
+            var words = heading.split(' ');
+            var half = Math.ceil(words.length / 2);
+            var firstHalf = words.slice(0, half).join(' ');
+            var secondHalf = words.slice(half).join(' ');
+            
+            var firstColor = colorArray[0] || textColor;
+            var secondColor = colorArray[1] || textColor;
+            
+            return createElement('h2', { style: { marginBottom: '10px' } },
+                createElement('span', { style: { color: firstColor } }, firstHalf + ' '),
+                createElement('span', { style: { color: secondColor } }, secondHalf)
+            );
+        }
+        
+        return createElement('h2', { style: { marginBottom: '10px', color: textColor } }, heading);
+    }
+    
     registerBlockType('furryangels/hero-banner', {
         title: __('Hero Banner', 'furryangels'),
         description: __('Hero banner with image and content side by side', 'furryangels'),
@@ -40,7 +81,9 @@
             useContainer: { type: 'boolean', default: true },
             containerWidth: { type: 'string', default: '1200px' },
             innerWidth: { type: 'string', default: '100%' },
-            gap: { type: 'number', default: 20 }
+            gap: { type: 'number', default: 20 },
+            headingStyle: { type: 'string', default: 'normal' },
+            headingColors: { type: 'string', default: '' }
         },
         
         edit: function(props) {
@@ -62,6 +105,31 @@
                         placeholder: 'Enter content',
                         style: { width: '100%', minHeight: '80px' }
                     })
+                ),
+                
+                createElement(PanelBody, { title: 'Heading Style', initialOpen: false },
+                    createElement(SelectControl, {
+                        label: 'Heading Style',
+                        value: attrs.headingStyle,
+                        options: [
+                            { label: 'Normal', value: 'normal' },
+                            { label: 'Gradient (Each Word)', value: 'gradient' },
+                            { label: 'Multi-Color (Each Letter)', value: 'multicolor' },
+                            { label: 'Split Words', value: 'split' }
+                        ],
+                        onChange: function(value) { props.setAttributes({ headingStyle: value }); }
+                    }),
+                    attrs.headingStyle !== 'normal' ? [
+                        createElement('p', { style: { marginBottom: '8px', fontSize: '12px', color: '#666' } }, 
+                            'Enter colors separated by comma'
+                        ),
+                        createElement(TextControl, {
+                            label: 'Colors',
+                            value: attrs.headingColors,
+                            onChange: function(value) { props.setAttributes({ headingColors: value }); },
+                            placeholder: '#ff0000, #00ff00, #0000ff'
+                        })
+                    ] : null
                 ),
                 
                 createElement(PanelBody, { title: 'Button', initialOpen: false },
@@ -118,7 +186,7 @@
                                 checked: attrs.reverseOrder,
                                 onChange: function(e) { props.setAttributes({ reverseOrder: e.target.checked }); }
                             }),
-                            createElement('span', { marginLeft: '8px' }, 'Reverse Image/Content Order')
+                            createElement('span', { marginLeft: '8px' }, 'Reverse Order')
                         )
                     )
                 ),
@@ -209,7 +277,7 @@
             }
             
             var contentPart = createElement('div', { style: { flex: '1', textAlign: attrs.alignment } },
-                createElement('h2', { style: { marginBottom: '10px', color: attrs.textColor } }, attrs.heading || 'Heading'),
+                getStyledHeading(attrs.heading, attrs.headingStyle, attrs.headingColors, attrs.textColor),
                 createElement('p', { marginBottom: '15px', color: attrs.textColor }, attrs.content || 'Content'),
                 attrs.buttonText ? createElement('a', {
                     href: attrs.buttonUrl,
@@ -257,7 +325,7 @@
             }
             
             var contentPart = createElement('div', { style: { flex: '1', textAlign: attrs.alignment } },
-                attrs.heading ? createElement('h2', { style: { marginBottom: '10px', color: attrs.textColor } }, attrs.heading) : null,
+                attrs.heading ? getStyledHeading(attrs.heading, attrs.headingStyle, attrs.headingColors, attrs.textColor) : null,
                 attrs.content ? createElement('p', { marginBottom: '15px', color: attrs.textColor }, attrs.content) : null,
                 attrs.buttonText ? createElement('a', {
                     href: attrs.buttonUrl,
