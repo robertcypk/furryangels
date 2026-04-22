@@ -36,7 +36,11 @@
             buttonColor: { type: 'string', default: '#0073aa' },
             imageWidth: { type: 'number', default: 50 },
             padding: { type: 'number', default: 40 },
-            reverseOrder: { type: 'boolean', default: false }
+            reverseOrder: { type: 'boolean', default: false },
+            useContainer: { type: 'boolean', default: true },
+            containerWidth: { type: 'string', default: '1200px' },
+            innerWidth: { type: 'string', default: '100%' },
+            gap: { type: 'number', default: 20 }
         },
         
         edit: function(props) {
@@ -141,7 +145,38 @@
                             { label: '100px', value: '100' }
                         ],
                         onChange: function(value) { props.setAttributes({ padding: parseInt(value, 10) }); }
+                    }),
+                    createElement(TextControl, {
+                        label: 'Gap (px)',
+                        type: 'number',
+                        value: attrs.gap,
+                        onChange: function(value) { props.setAttributes({ gap: parseInt(value, 10) }); }
                     })
+                ),
+                
+                createElement(PanelBody, { title: 'Container', initialOpen: false },
+                    createElement('label', null,
+                        createElement('input', {
+                            type: 'checkbox',
+                            checked: attrs.useContainer,
+                            onChange: function(e) { props.setAttributes({ useContainer: e.target.checked }); }
+                        }),
+                        createElement('span', { marginLeft: '8px' }, 'Use Container')
+                    ),
+                    attrs.useContainer ? [
+                        createElement(TextControl, {
+                            label: 'Container Width',
+                            value: attrs.containerWidth,
+                            onChange: function(value) { props.setAttributes({ containerWidth: value }); },
+                            placeholder: '1200px'
+                        }),
+                        createElement(TextControl, {
+                            label: 'Inner Width',
+                            value: attrs.innerWidth,
+                            onChange: function(value) { props.setAttributes({ innerWidth: value }); },
+                            placeholder: '100%'
+                        })
+                    ] : null
                 ),
                 
                 createElement(PanelBody, { title: 'Colors', initialOpen: false },
@@ -189,13 +224,18 @@
             
             var previewContent = attrs.reverseOrder ? [contentPart, imagePart] : [imagePart, contentPart];
             
+            var containerStyle = attrs.useContainer ? { maxWidth: attrs.containerWidth, margin: '0 auto', width: attrs.innerWidth } : { width: '100%' };
+            var innerContainerStyle = { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: attrs.gap + 'px' };
+            
             var previewSection = createElement('div', { 
                 style: { 
                     padding: attrs.padding + 'px', 
                     backgroundColor: attrs.bgColor 
                 }
             },
-                createElement('div', { style: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' } }, previewContent)
+                createElement('div', { style: containerStyle },
+                    createElement('div', { style: innerContainerStyle }, previewContent)
+                )
             );
             
             return createElement('div', blockProps, inspectorControls, previewSection);
@@ -232,8 +272,13 @@
             
             var content = attrs.reverseOrder ? [contentPart, imagePart] : [imagePart, contentPart];
             
+            var containerStyle = attrs.useContainer ? { maxWidth: attrs.containerWidth, margin: '0 auto', width: attrs.innerWidth } : { width: '100%' };
+            var innerContainerStyle = { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: attrs.gap + 'px' };
+            
             return createElement('section', Object.assign({}, blockProps, { style: { backgroundColor: attrs.bgColor, padding: attrs.padding + 'px' } }),
-                createElement('div', { style: { display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '20px' } }, content)
+                createElement('div', { style: containerStyle },
+                    createElement('div', { style: innerContainerStyle }, content)
+                )
             );
         }
     });
