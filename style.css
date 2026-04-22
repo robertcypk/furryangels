@@ -218,7 +218,9 @@ body {
 
 .bubble-1,
 .bubble-2,
-.bubble-3 {
+.bubble-3,
+.bubble-4,
+.bubble-5 {
     position: absolute;
     border-radius: 50%;
     opacity: 1.08;

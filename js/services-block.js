@@ -81,6 +81,8 @@
                 el('div', { className: 'bubble-1' }),
                 el('div', { className: 'bubble-2' }),
                 el('div', { className: 'bubble-3' }),
+                el('div', { className: 'bubble-4' }),
+                el('div', { className: 'bubble-5' }),
                 el('div', { className: 'container' },
                     el('h2', { className: 'section-title' }, 'Our Services'),
                     el(InnerBlocksContent)
