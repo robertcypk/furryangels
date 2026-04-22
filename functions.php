@@ -99,7 +99,7 @@ function furryangels_register_blocks() {
     wp_register_script(
         'furryangels-hero-banner-block',
         get_template_directory_uri() . '/js/hero-banner-block.js',
-        array('wp-blocks', 'wp-element', 'wp-block-editor', 'wp-i18n'),
+        array('wp-blocks', 'wp-element', 'wp-editor', 'wp-i18n', 'wp-components', 'wp-block-editor'),
         '1.0.0',
         true
     );

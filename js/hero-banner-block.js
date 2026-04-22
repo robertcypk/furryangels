@@ -3,11 +3,6 @@
     var __ = i18n.__;
     var useBlockProps = blockEditor.useBlockProps;
     var useBlockPropsSave = useBlockProps.save;
-    var InspectorControls = blockEditor.InspectorControls;
-    var RichText = blockEditor.RichText;
-    var PanelBody = blockEditor.PanelBody;
-    var TextControl = blockEditor.TextControl;
-    var ColorPalette = blockEditor.ColorPalette;
 
     blocks.registerBlockType('furryangels/hero-banner', {
         title: __('Hero Banner', 'furryangels'),
@@ -30,88 +25,100 @@
         edit: function (props) {
             var blockProps = useBlockProps({ className: 'furryangels-hero-banner-editor' });
 
-            return el('section', blockProps,
-                el(InspectorControls, { key: 'inspector' },
-                    el(PanelBody, { title: 'Content Settings', initialOpen: true },
-                        el(RichText, {
-                            tagName: 'h2',
-                            value: props.attributes.heading,
-                            onChange: function (value) { props.setAttributes({ heading: value }); },
-                            placeholder: 'Enter heading...',
-                            className: 'hero-banner-heading-input'
-                        }),
-                        el(RichText, {
-                            tagName: 'p',
-                            value: props.attributes.content,
-                            onChange: function (value) { props.setAttributes({ content: value }); },
-                            placeholder: 'Enter content...',
-                            className: 'hero-banner-content-input'
-                        }),
-                        el(TextControl, {
-                            label: 'Button Text',
-                            value: props.attributes.buttonText,
-                            onChange: function (value) { props.setAttributes({ buttonText: value }); },
-                            placeholder: 'Learn More'
-                        }),
-                        el(TextControl, {
-                            label: 'Button URL',
-                            value: props.attributes.buttonUrl,
-                            onChange: function (value) { props.setAttributes({ buttonUrl: value }); },
-                            placeholder: '#'
-                        })
-                    ),
-                    el(PanelBody, { title: 'Image Settings', initialOpen: true },
-                        el(TextControl, {
-                            label: 'Image URL',
-                            value: props.attributes.imageUrl,
-                            onChange: function (value) { props.setAttributes({ imageUrl: value }); },
-                            placeholder: 'https://example.com/image.jpg'
-                        }),
-                        el(TextControl, {
-                            label: 'Image Alt Text',
-                            value: props.attributes.imageAlt,
-                            onChange: function (value) { props.setAttributes({ imageAlt: value }); },
-                            placeholder: 'Image description'
-                        })
-                    ),
-                    el(PanelBody, { title: 'Style Settings', initialOpen: false },
-                        el('p', { style: { marginBottom: '10px' } }, 'Content Alignment:'),
-                        el('select', {
-                            value: props.attributes.contentAlignment,
-                            onChange: function (e) { props.setAttributes({ contentAlignment: e.target.value }); },
-                            style: { width: '100%', padding: '8px', marginBottom: '15px' }
-                        }, [
-                            el('option', { value: 'left' }, 'Left'),
-                            el('option', { value: 'center' }, 'Center'),
-                            el('option', { value: 'right' }, 'Right')
-                        ]),
-                        el('p', { style: { marginBottom: '10px' } }, 'Text Color:'),
-                        el('input', {
-                            type: 'color',
-                            value: props.attributes.textColor || '#000000',
-                            onChange: function (e) { props.setAttributes({ textColor: e.target.value }); },
-                            style: { width: '100%', height: '40px', marginBottom: '15px' }
-                        }),
-                        el('p', { style: { marginBottom: '10px' } }, 'Background Color:'),
-                        el('input', {
-                            type: 'color',
-                            value: props.attributes.backgroundColor || '#ffffff',
-                            onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
-                            style: { width: '100%', height: '40px', marginBottom: '15px' }
-                        })
-                    )
+            return el('div', blockProps,
+                el('div', { style: { padding: '20px', background: '#fff', border: '1px solid #ccc', marginBottom: '10px' } },
+                    el('h3', { style: { marginBottom: '15px' } }, 'Hero Banner Settings'),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Heading:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.heading,
+                        onChange: function (e) { props.setAttributes({ heading: e.target.value }); },
+                        placeholder: 'Enter heading...',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Content:'),
+                    el('textarea', {
+                        value: props.attributes.content,
+                        onChange: function (e) { props.setAttributes({ content: e.target.value }); },
+                        placeholder: 'Enter content...',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px', minHeight: '60px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Button Text:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.buttonText,
+                        onChange: function (e) { props.setAttributes({ buttonText: e.target.value }); },
+                        placeholder: 'Learn More',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Button URL:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.buttonUrl,
+                        onChange: function (e) { props.setAttributes({ buttonUrl: e.target.value }); },
+                        placeholder: '#',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Image URL:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.imageUrl,
+                        onChange: function (e) { props.setAttributes({ imageUrl: e.target.value }); },
+                        placeholder: 'https://example.com/image.jpg',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Image Alt:'),
+                    el('input', {
+                        type: 'text',
+                        value: props.attributes.imageAlt,
+                        onChange: function (e) { props.setAttributes({ imageAlt: e.target.value }); },
+                        placeholder: 'Image description',
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Alignment:'),
+                    el('select', {
+                        value: props.attributes.contentAlignment,
+                        onChange: function (e) { props.setAttributes({ contentAlignment: e.target.value }); },
+                        style: { width: '100%', padding: '8px', marginBottom: '15px' }
+                    }, [
+                        el('option', { value: 'left' }, 'Left'),
+                        el('option', { value: 'center' }, 'Center'),
+                        el('option', { value: 'right' }, 'Right')
+                    ]),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Background Color:'),
+                    el('input', {
+                        type: 'color',
+                        value: props.attributes.backgroundColor || '#ffffff',
+                        onChange: function (e) { props.setAttributes({ backgroundColor: e.target.value }); },
+                        style: { width: '100%', height: '40px', marginBottom: '15px' }
+                    }),
+                    
+                    el('label', { style: { display: 'block', marginBottom: '5px', fontWeight: 'bold' } }, 'Text Color:'),
+                    el('input', {
+                        type: 'color',
+                        value: props.attributes.textColor || '#000000',
+                        onChange: function (e) { props.setAttributes({ textColor: e.target.value }); },
+                        style: { width: '100%', height: '40px', marginBottom: '15px' }
+                    })
                 ),
-                el('section', { className: 'hero-banner-preview', style: { backgroundColor: props.attributes.backgroundColor, padding: '40px' } },
-                    el('div', { className: 'container' },
-                        el('div', { className: 'hero-banner-row', style: { display: 'flex', alignItems: 'center', gap: '30px', flexWrap: 'wrap' } },
-                            props.attributes.imageUrl ? el('div', { className: 'hero-banner-image', style: { flex: '1', minWidth: '300px' } },
-                                el('img', { src: props.attributes.imageUrl, alt: props.attributes.imageAlt, style: { width: '100%', height: 'auto', display: 'block' } })
-                            ) : null,
-                            el('div', { className: 'hero-banner-content', style: { flex: '1', minWidth: '300px', textAlign: props.attributes.contentAlignment, color: props.attributes.textColor } },
-                                props.attributes.heading ? el('h1', { className: 'hero-banner-heading', style: { fontSize: '2.5rem', marginBottom: '15px' } }, props.attributes.heading) : null,
-                                props.attributes.content ? el('p', { className: 'hero-banner-text', style: { fontSize: '1.1rem', marginBottom: '20px' } }, props.attributes.content) : null,
-                                props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button', style: { display: 'inline-block', padding: '12px 30px', backgroundColor: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '5px' } }, props.attributes.buttonText) : null
-                            )
+                
+                el('section', { style: { backgroundColor: props.attributes.backgroundColor, padding: '40px' } },
+                    el('div', { style: { display: 'flex', gap: '30px', alignItems: 'center', flexWrap: 'wrap' } },
+                        props.attributes.imageUrl ? el('div', { style: { flex: '1 1 300px' } },
+                            el('img', { src: props.attributes.imageUrl, alt: props.attributes.imageAlt, style: { width: '100%', display: 'block' } })
+                        ) : null,
+                        el('div', { style: { flex: '1 1 300px', textAlign: props.attributes.contentAlignment, color: props.attributes.textColor } },
+                            el('h1', { style: { marginBottom: '15px' } }, props.attributes.heading || 'Heading'),
+                            el('p', { style: { marginBottom: '20px' } }, props.attributes.content || 'Content'),
+                            props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, style: { padding: '12px 30px', backgroundColor: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '5px' } }, props.attributes.buttonText) : null
                         )
                     )
                 )
@@ -122,19 +129,17 @@
             var blockProps = useBlockPropsSave({ className: 'hero hero-banner-block' });
 
             return el('section', Object.assign({}, blockProps, { style: { backgroundColor: props.attributes.backgroundColor } }),
-                el('div', { className: 'container' },
-                    el('div', { className: 'hero-banner-row', style: { display: 'flex', alignItems: 'center', gap: '30px', flexWrap: 'wrap' } },
-                        props.attributes.imageUrl ? el('div', { className: 'hero-banner-image', style: { flex: '1', minWidth: '300px' } },
-                            el('img', { src: props.attributes.imageUrl, alt: props.attributes.imageAlt, style: { width: '100%', height: 'auto', display: 'block' } })
-                        ) : null,
-                        el('div', { className: 'hero-banner-content', style: { flex: '1', minWidth: '300px', textAlign: props.attributes.contentAlignment, color: props.attributes.textColor } },
-                            props.attributes.heading ? el('h1', { className: 'hero-banner-heading', style: { fontSize: '2.5rem', marginBottom: '15px' } }, props.attributes.heading) : null,
-                            props.attributes.content ? el('p', { className: 'hero-banner-text', style: { fontSize: '1.1rem', marginBottom: '20px' } }, props.attributes.content) : null,
-                            props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, className: 'hero-banner-button', style: { display: 'inline-block', padding: '12px 30px', backgroundColor: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '5px' } }, props.attributes.buttonText) : null
-                        )
+                el('div', { style: { display: 'flex', gap: '30px', alignItems: 'center', flexWrap: 'wrap' } },
+                    props.attributes.imageUrl ? el('div', { style: { flex: '1 1 300px' } },
+                        el('img', { src: props.attributes.imageUrl, alt: props.attributes.imageAlt, style: { width: '100%', display: 'block' } })
+                    ) : null,
+                    el('div', { style: { flex: '1 1 300px', textAlign: props.attributes.contentAlignment, color: props.attributes.textColor } },
+                        props.attributes.heading ? el('h1', { style: { marginBottom: '15px' } }, props.attributes.heading) : null,
+                        props.attributes.content ? el('p', { style: { marginBottom: '20px' } }, props.attributes.content) : null,
+                        props.attributes.buttonText ? el('a', { href: props.attributes.buttonUrl, style: { padding: '12px 30px', backgroundColor: '#0073aa', color: '#fff', textDecoration: 'none', borderRadius: '5px' } }, props.attributes.buttonText) : null
                     )
                 )
             );
         },
     });
-})(window.wp.blocks, window.wp.element, window.wp.blockEditor, window.wp.i18n);
+})(wp.blocks, wp.element, wp.blockEditor, wp.i18n);
