@@ -149,14 +149,3 @@ function furryangels_body_classes($classes) {
     return $classes;
 }
 add_filter('body_class', 'furryangels_body_classes');
-
-// FurryChat initialization
-function furrychat_init() {
-    wp_enqueue_style('furrychat-style', get_template_directory_uri() . '/css/chat.css', array(), '1.0.0');
-    wp_enqueue_script('furrychat-script', get_template_directory_uri() . '/js/chat.js', array('jquery'), '1.0.0', true);
-    wp_localize_script('furrychat-script', 'furrychatData', array(
-        'ajaxUrl' => admin_url('admin-ajax.php'),
-        'nonce'  => wp_create_nonce('furrychat_nonce'),
-    ));
-}
-add_action('wp_enqueue_scripts', 'furrychat_init');
